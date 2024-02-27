@@ -1,16 +1,21 @@
 import { Controller, Post, UseInterceptors, UploadedFile, HttpException, HttpStatus } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as COS from 'cos-nodejs-sdk-v5';
 
 @Controller('avatar')
 export class AvatarController {
   private cos;
+  constructor(private readonly configService: ConfigService) {}
 
-  constructor() {
-    this.cos = new COS({
-      SecretId: 'a',
-      SecretKey: 'b',
-    });
+  private getCosClient() {
+    if (!this.cos) {
+      this.cos = new COS({
+        SecretId: this.configService.get<string>('TENCENT_SECRET_ID'),
+        SecretKey: this.configService.get<string>('TENCENT_SECRET_KEY'),
+      });
+    }
+    return this.cos;
   }
 
   @Post('upload')
@@ -18,13 +23,14 @@ export class AvatarController {
   async uploadAvatar(@UploadedFile() file: Express.Multer.File) {
     if (!file) throw new HttpException('No file provided', HttpStatus.BAD_REQUEST);
 
-    const Bucket = 'swim-test-c'; // Bucket名称，格式为：test-1250000000
-    const Region = 'ap-d'; // Bucket所在区域
+    const cosClient = this.getCosClient();
+    const Bucket = this.configService.get<string>('TENCENT_BUCKET'); // Bucket名称，格式为：test-1250000000
+    const Region = this.configService.get<string>('TENCENT_REGION'); // Bucket所在区域
     const Key = `avatars/${Date.now()}-${file.originalname}`; // 上传到COS的对象键
-    console.log(file.buffer)
+    
     // 使用Promise封装上传逻辑
     const uploadPromise = new Promise((resolve, reject) => {
-      this.cos.putObject({
+      cosClient.putObject({
         Bucket,
         Region,
         Key,
