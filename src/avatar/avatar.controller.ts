@@ -8,8 +8,8 @@ export class AvatarController {
 
   constructor() {
     this.cos = new COS({
-      SecretId: 'AKIDPefR0KmBUaT7Rr9GFD8sSsBh6JH1XsCx',
-      SecretKey: 'jNdonbHqBYr3JVWdcN1Rp8MacXLBMTN4',
+      SecretId: 'a',
+      SecretKey: 'b',
     });
   }
 
@@ -18,8 +18,8 @@ export class AvatarController {
   async uploadAvatar(@UploadedFile() file: Express.Multer.File) {
     if (!file) throw new HttpException('No file provided', HttpStatus.BAD_REQUEST);
 
-    const Bucket = 'swim-test-1251994034'; // Bucket名称，格式为：test-1250000000
-    const Region = 'ap-shanghai'; // Bucket所在区域
+    const Bucket = 'swim-test-c'; // Bucket名称，格式为：test-1250000000
+    const Region = 'ap-d'; // Bucket所在区域
     const Key = `avatars/${Date.now()}-${file.originalname}`; // 上传到COS的对象键
     console.log(file.buffer)
     // 使用Promise封装上传逻辑
