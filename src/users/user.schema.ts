@@ -1,9 +1,8 @@
 import * as mongoose from 'mongoose';
 
 export const UserSchema = new mongoose.Schema({
-  user_id: Number,
-  email: String,
-  password_hash: String,
+  email: { type: String, required: true, unique: true },
+  password_hash: { type: String, required: true },
   nickname: String,
   avatar_url: String,
   signature: String,

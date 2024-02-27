@@ -1,5 +1,4 @@
 export interface User<T> {
-  id: Number,
   email: String,
   password_hash: String,
   nickname: String,
