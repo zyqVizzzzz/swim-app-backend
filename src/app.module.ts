@@ -8,6 +8,7 @@ import { IdCounterSchema } from './sequence/idCounter.schema';
 import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { AvatarModule } from './avatar/avatar.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -26,6 +27,7 @@ import { AvatarModule } from './avatar/avatar.module';
     UsersModule, 
     PostsModule, 
     AvatarModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService, SequenceService],

@@ -7,12 +7,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './users.interface';
 
 @Injectable()
-export class UsersService<T> {
-  constructor(@InjectModel('Users') private readonly userModel: Model<User<T>>){}
-  async create(createUserDto: CreateUserDto): Promise<User<T>> {
+export class UsersService {
+  constructor(
+    @InjectModel('Users') private readonly userModel: Model<User>
+  ){}
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const { password, ...otherFields } = createUserDto;
     const hashedPassword = await bcrypt.hash(password, 10);
-  
     const createdUser = new this.userModel({
       ...otherFields,
       password_hash: hashedPassword, // 保存加密后的密码
@@ -22,7 +23,7 @@ export class UsersService<T> {
       return createdUser;
     } catch (error) {
       if (error.code === 11000) {
-        // MongoDB的错误码11000代表违反唯一性约束
+        // 11000代表违反唯一性约束
         throw new ConflictException('Email already exists');
       } else {
         throw new InternalServerErrorException();
@@ -48,7 +49,7 @@ export class UsersService<T> {
     })
   }
 
-  remove(id: number): Promise<User<T>> {
+  remove(id: number): Promise<User> {
     return this.userModel.findOneAndDelete({id}).exec();
   }
 }

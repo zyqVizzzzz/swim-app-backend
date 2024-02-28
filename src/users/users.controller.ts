@@ -5,13 +5,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService<any>) {}
+  constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
-  }
-
+  // 创建新用户
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
@@ -27,7 +23,7 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  @Get('/by-email/:email')
+  @Get('/email/:email')
   findOneByEmail(@Param('email') email: string) {
     return this.usersService.findOneByEmail(email);
   }

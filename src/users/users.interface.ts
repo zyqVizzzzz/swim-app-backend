@@ -1,4 +1,5 @@
-export interface User<T> {
+export interface User {
+  _id: String,
   email: String,
   password_hash: String,
   nickname: String,
@@ -10,14 +11,14 @@ export interface User<T> {
     location: String,
     bio: String
   },
-  devices: Array<T>,
+  devices: Array<any>,
   sports_data: {
-    daily: Array<T>,
+    daily: Array<any>,
     total: Object
   },
-  interactions: Array<T>,
-  system_messages: Array<T>,
-  following: Array<T>,
-  blocked: Array<T>,
-  posts: Array<T>,
+  interactions: Array<any>,
+  system_messages: Array<any>,
+  following: Array<any>,
+  blocked: Array<any>,
+  posts: Array<any>,
 }
