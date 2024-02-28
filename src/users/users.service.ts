@@ -5,12 +5,16 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './users.interface';
+// import { SmsService } from './sms.service';
 
 @Injectable()
 export class UsersService {
+
   constructor(
-    @InjectModel('Users') private readonly userModel: Model<User>
+    @InjectModel('Users') private readonly userModel: Model<User>,
+    // private smsService: SmsService
   ){}
+
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { password, ...otherFields } = createUserDto;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -44,7 +48,6 @@ export class UsersService {
   }
 
   update(id: string, updateUserDto: UpdateUserDto) {
-    console.log(id, updateUserDto)
     return this.userModel.findOneAndUpdate({_id: id}, updateUserDto, {
       new: true
     })
@@ -53,6 +56,25 @@ export class UsersService {
   remove(id: string): Promise<User> {
     return this.userModel.findOneAndDelete({_id: id}).exec();
   }
+
+  // async sendVerificationCodeToUser(id: string, phoneNumber: string): Promise<void> {
+  //   await this.smsService.sendVerificationCode(phoneNumber);
+  //   await this.userModel.findOneAndUpdate({ _id: id }, { phoneNumber })
+  // }
+
+  // async verifyUserPhoneNumber(id: string, code: string): Promise<boolean> {
+  //   const user = await this.userModel.findById(id);
+  //   if (!user) {
+  //     throw new Error('User not found');
+  //   }
+  //   const isCodeValid = await this.smsService.verifyCode(user.phoneNumber, code);
+  //   if (isCodeValid) {
+  //     await this.userModel.findByIdAndUpdate(id, { isPhoneNumberVerified: true });
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 }
 
 

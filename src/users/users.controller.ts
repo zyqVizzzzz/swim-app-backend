@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -37,4 +37,14 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
+
+  // @Post(':id/verify-phone')
+  // async sendVerificationCode(@Param('id') id: string, @Body() body: { phoneNumber: string }) {
+  //   return await this.usersService.sendVerificationCodeToUser(id, body.phoneNumber);
+  // }
+
+  // @Post(':id/confirm-phone')
+  // async verifyPhoneNumber(@Param('id') id: string, @Body() body: { code: string }) {
+  //   return await this.usersService.verifyUserPhoneNumber(id, body.code);
+  // }
 }
