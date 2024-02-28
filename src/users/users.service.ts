@@ -43,14 +43,15 @@ export class UsersService {
     return this.userModel.findOne({email}).exec();
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userModel.findOneAndUpdate({id}, updateUserDto, {
+  update(id: string, updateUserDto: UpdateUserDto) {
+    console.log(id, updateUserDto)
+    return this.userModel.findOneAndUpdate({_id: id}, updateUserDto, {
       new: true
     })
   }
 
-  remove(id: number): Promise<User> {
-    return this.userModel.findOneAndDelete({id}).exec();
+  remove(id: string): Promise<User> {
+    return this.userModel.findOneAndDelete({_id: id}).exec();
   }
 }
 
