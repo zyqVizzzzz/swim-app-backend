@@ -11,6 +11,14 @@ export class PostsController {
     return this.postsService.create(createPostDto);
   }
 
+  @Post('/:postId/comments')
+  async addComment(
+    @Param('postId') postId: string,
+    @Body() createCommentDto: any
+  ) {
+    return this.postsService.addComment(postId, createCommentDto);
+  }
+
   @Get()
   async findAll() {
     return this.postsService.findAll();
