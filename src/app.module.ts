@@ -7,6 +7,7 @@ import { SequenceService } from './sequence/sequence.service';
 import { IdCounterSchema } from './sequence/idCounter.schema';
 import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
+import { CommentsModule } from './comments/comments.module';
 import { AvatarModule } from './avatar/avatar.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -27,7 +28,8 @@ import { AuthModule } from './auth/auth.module';
     UsersModule, 
     PostsModule, 
     AvatarModule,
-    AuthModule
+    AuthModule,
+    CommentsModule
   ],
   controllers: [AppController],
   providers: [AppService, SequenceService],
