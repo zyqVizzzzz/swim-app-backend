@@ -4,19 +4,29 @@ import { Model } from 'mongoose';
 import { Post } from './interfaces/post.interface'; // 定义接口
 import { CreatePostDto } from './dto/create-post.dto';
 import { SequenceService } from '../sequence/sequence.service'; // 引入SequenceService
+import mongoose from 'mongoose';
+import { UsersService } from '../users/users.service';
 
 
 @Injectable()
 export class PostsService {
   constructor(
     private sequenceService: SequenceService, // 注入SequenceService,
+    private usersService: UsersService,
     @InjectModel('Post') private readonly postModel: Model<Post>
   ) {}
 
-  async create(createPostDto: CreatePostDto): Promise<Post> {
+  async create(createPostDto: CreatePostDto) {
+    const { author } = createPostDto;
     const post_id = await this.sequenceService.getNextSequenceValue('Post');
-    const createdPost = new this.postModel({...createPostDto, post_id});
-    return createdPost.save();
+    const createdPost = new this.postModel({
+      ...createPostDto, 
+      post_id, 
+    });
+    const result = await createdPost.save();
+    
+    await this.usersService.update(author, { $push: { posts: result._id } });
+    return result;
   }
 
   async findAll(): Promise<Post[]> {

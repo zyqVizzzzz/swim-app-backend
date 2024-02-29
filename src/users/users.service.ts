@@ -47,7 +47,7 @@ export class UsersService {
     return this.userModel.findOne({email}).exec();
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  update(id: string, updateUserDto: any): Promise<User> {
     return this.userModel.findOneAndUpdate({_id: id}, updateUserDto, {
       new: true
     })

@@ -32,5 +32,8 @@ export const UserSchema = new mongoose.Schema({
   blocked: Array<any>,
   following: Array<any>,
   follower: Array<any>,
-  posts: Array<any>
+  posts: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Post'
+  }]
 })

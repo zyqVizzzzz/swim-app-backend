@@ -1,6 +1,8 @@
 export class CreatePostDto {
+  post_id: Number;
   readonly author_id: string;
   readonly content: string;
+  readonly author: string;
   readonly images: string[];
   readonly sports_data: {
     distance: number;
