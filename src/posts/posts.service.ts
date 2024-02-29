@@ -29,26 +29,6 @@ export class PostsService {
     return result;
   }
 
-  async addComment(postId: string, createCommentDto: CreateCommentDto): Promise<Post> {
-    const comment = {
-      ...createCommentDto,
-      commenter: new mongoose.Types.ObjectId(createCommentDto.commenter),
-      createdAt: new Date()
-    }
-
-    const updatedPost = await this.postModel.findByIdAndUpdate(
-      postId,
-      { $push: { comments: comment } },
-      { new: true, safe: true, upsert: true }
-    ).exec();
-
-    if(!updatedPost) {
-      throw new NotFoundException(`Post with ID ${postId} not found`)
-    }
-
-    return updatedPost;
-  }
-
   async findAll(): Promise<Post[]> {
     return this.postModel.find().exec();
   }
