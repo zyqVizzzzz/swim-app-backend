@@ -13,3 +13,11 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 }
+
+// zyq@example.com
+// 123456
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp5cUBleGFtcGxlLmNvbSIsInN1YiI6IjY1ZTA2M2IxZmE3MTBiMDIyNTU0MWYyNSIsImlhdCI6MTcwOTI4MTY5NSwiZXhwIjoxNzA5MjgyMjk1fQ.BSKm42vyM6QrSjG96OmY3PqdtKKC5fb4R6Q8-Ny6rIA
+
+// lyx@example.com
+// 123456
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx5eEBleGFtcGxlLmNvbSIsInN1YiI6IjY1ZTFhODYzN2RhOGUzNmU2ZmM1MGZlMyIsImlhdCI6MTcwOTI4NzU5MywiZXhwIjoxNzA5Mjg4MTkzfQ.aSTIRPeJbV3A7XtPhFbTPTTsjN8E-jno4McThuX5d5g

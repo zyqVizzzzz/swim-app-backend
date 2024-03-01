@@ -6,15 +6,16 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 @Controller('comments')
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
-
+  
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createCommentDto: CreateCommentDto) {
     return this.commentsService.create(createCommentDto);
   }
 
-  @Post('delete/:commentId')
   @UseGuards(JwtAuthGuard)
+  @Post('delete/:commentId')
   async deleteComment(@Param('commentId') commentId: string, @Req() req: any){
-    return this.commentsService.deleteComment(commentId, req.user.id)
+    return this.commentsService.deleteComment(commentId, req.user.userId)
   }
 }

@@ -19,10 +19,10 @@ export class CommentsService {
       throw new NotFoundException('Comment not found');
     }
     // 检查执行删除操作的用户是否为评论的发布者或帖子的发帖者
-    if (comment.commenter.toString() !== userId && comment.post?.author.toString()){
+    if (comment.commenter.toString() !== userId && comment.post?.author.toString() !== userId){
       throw new UnauthorizedException('You do not have permission to delete this comment')
     }
-    await comment.remove();
+    await this.commentModel.findOneAndDelete({_id: commentId}).exec();
     return { message: 'Comment deleted successfully' };
   }
 }
