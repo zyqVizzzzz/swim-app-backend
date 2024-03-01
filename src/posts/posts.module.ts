@@ -6,6 +6,7 @@ import { SequenceService } from '../sequence/sequence.service';
 import { PostSchema } from './posts.schema';
 import { IdCounterSchema } from '../sequence/idCounter.schema';
 import { UsersModule } from '../users/users.module';
+import { CommentsModule } from '../comments/comments.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UsersModule } from '../users/users.module';
       { name: 'IdCounter', schema: IdCounterSchema }
     ]),
     UsersModule,
+    CommentsModule
   ],
   controllers: [PostsController],
   providers: [PostsService, SequenceService],

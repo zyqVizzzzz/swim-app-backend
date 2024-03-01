@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body, Param, UseGuards, Req, Get } from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -18,4 +18,5 @@ export class CommentsController {
   async deleteComment(@Param('commentId') commentId: string, @Req() req: any){
     return this.commentsService.deleteComment(commentId, req.user.userId)
   }
+
 }

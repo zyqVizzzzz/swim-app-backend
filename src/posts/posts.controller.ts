@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Delete, Put, UseGuards, Body } from '@nestjs/common';
+import { Controller, Get, Post, Param, UseGuards, Body, Req } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto'; // 定义DTO
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -14,17 +14,24 @@ export class PostsController {
   }
 
   @Get()
-  async findAll() {
-    return this.postsService.findAll();
+  @UseGuards(JwtAuthGuard)
+  async findPostsByUserId(@Req() req: any) {
+    return this.postsService.findPostsByUserId(req.user.userId)
   }
 
-  @Put(':id')
+  @Get('comments/:postId')
+  @UseGuards(JwtAuthGuard)
+  async findCommentsByPostId(@Param('postId') postId: string) {
+    return this.postsService.findCommentsByPostId(postId)
+  }
+
+  @Post(':id')
   async update(@Param('id') id: string, @Body() updatePostDto: CreatePostDto) {
     return this.postsService.update(id, updatePostDto);
   }
 
-  @Delete(':id')
-  async delete(@Param('id') id: string) {
-    return this.postsService.delete(id);
+  @Post('delete/:postId')
+  async delete(@Param('postId') postId: string) {
+    return this.postsService.delete(postId);
   }
 }
