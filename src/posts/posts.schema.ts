@@ -15,7 +15,6 @@ const CommentSchema = new mongoose.Schema({
 });
 
 export const PostSchema = new mongoose.Schema({
-  title: String,
   content: { type: String, required: true },
   author: {
     type: mongoose.Schema.Types.ObjectId,
@@ -33,17 +32,5 @@ export const PostSchema = new mongoose.Schema({
   //   calories: Number,
   //   pace: Number
   // },
-  // likes_count: {type: Number, default: 0},
-  // comments: [{
-  //   author_id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-  //   content: String,
-  //   created_at: { type: Date, default: Date.now },
-  //   replies: [{
-  //     author_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  //     content: String,
-  //     created_at: { type: Date, default: Date.now }
-  //   }]
-  // }],
-  // created_at: { type: Date, default: Date.now },
-  // updated_at: { type: Date, default: Date.now }
+  // likes_count: {type: Number, default: 0}
 })

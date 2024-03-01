@@ -3,10 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Post } from './interfaces/post.interface'; // 定义接口
 import { CreatePostDto } from './dto/create-post.dto';
-import { CreateCommentDto } from './dto/create-common.dto';
 import { SequenceService } from '../sequence/sequence.service'; // 引入SequenceService
 import { UsersService } from '../users/users.service';
-import mongoose from 'mongoose';
 
 @Injectable()
 export class PostsService {

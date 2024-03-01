@@ -48,13 +48,22 @@ export class UsersService {
   }
 
   update(id: string, updateUserDto: any): Promise<User> {
-    return this.userModel.findOneAndUpdate({_id: id}, updateUserDto, {
-      new: true
-    })
+    return this.userModel.findOneAndUpdate(
+      {_id: id},       
+      updateUserDto, {
+        new: true
+      })
   }
 
   remove(id: string): Promise<User> {
     return this.userModel.findOneAndDelete({_id: id}).exec();
+  }
+
+  follow(id: string, updateUserDto: any): Promise<User> {
+    return this.userModel.findOneAndUpdate(
+      {_id: id}, 
+      updateUserDto
+    )
   }
 
   // async sendVerificationCodeToUser(id: string, phoneNumber: string): Promise<void> {
