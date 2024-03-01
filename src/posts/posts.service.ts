@@ -24,7 +24,6 @@ export class PostsService {
       post_id, 
     });
     const result = await createdPost.save();
-    
     await this.usersService.update(author, { $push: { posts: result._id } });
     return result;
   }
@@ -46,6 +45,7 @@ export class PostsService {
     if (!updatedPost) {
       throw new NotFoundException(`Post with ID ${id} not found`);
     }
+    //d
     return updatedPost;
   }
 
@@ -57,4 +57,25 @@ export class PostsService {
     }
     return deletedPost;
   }
+
+  async like(postId, userId) {
+    const post = await this.postModel.findById(postId);
+    let { likes_count, likes_users } = post as any;
+
+    if (likes_users.includes(userId)) {
+      likes_users = likes_users.filter((id) => id !== userId);
+      likes_count -= 1;
+    } else {
+      likes_users.push(userId);
+      likes_count += 1;
+    }
+
+    const updatedPost = await this.postModel.findByIdAndUpdate(
+      postId,
+      { likes_count, likes_users },
+      { new: true }
+    ).exec();
+
+    return updatedPost;
+}
 }

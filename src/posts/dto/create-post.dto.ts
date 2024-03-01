@@ -1,6 +1,5 @@
 export class CreatePostDto {
   post_id: Number;
-  readonly author_id: string;
   readonly content: string;
   readonly author: string;
   readonly images: string[];
@@ -11,6 +10,7 @@ export class CreatePostDto {
     pace: number;
   };
   readonly likes_count?: number; // 可选字段
+  readonly likes_users?: string[];
   readonly comments?: CommentDto[]; // 可以定义一个CommentDto类
 }
 

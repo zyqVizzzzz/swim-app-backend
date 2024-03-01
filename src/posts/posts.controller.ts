@@ -31,7 +31,14 @@ export class PostsController {
   }
 
   @Post('delete/:postId')
+  @UseGuards(JwtAuthGuard)
   async delete(@Param('postId') postId: string) {
     return this.postsService.delete(postId);
+  }
+
+  @Post('like/:postId')
+  @UseGuards(JwtAuthGuard)
+  async like(@Param('postId') postId: string, @Req() req: any){
+    return this.postsService.like(postId, req.user.userId);
   }
 }

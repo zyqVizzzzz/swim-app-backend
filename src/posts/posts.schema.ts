@@ -32,5 +32,6 @@ export const PostSchema = new mongoose.Schema({
   //   calories: Number,
   //   pace: Number
   // },
-  // likes_count: {type: Number, default: 0}
+  likes_count: {type: Number, default: 0},
+  likes_users: [String],
 })
