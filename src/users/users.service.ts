@@ -59,11 +59,23 @@ export class UsersService {
     return this.userModel.findOneAndDelete({_id: id}).exec();
   }
 
-  follow(id: string, updateUserDto: any): Promise<User> {
-    return this.userModel.findOneAndUpdate(
-      {_id: id}, 
-      updateUserDto
-    )
+  async follow(othersUserId: string, userId: string): Promise<User> {
+    if (othersUserId === userId) {
+      throw new Error('You cannot follow yourself');
+    }
+
+    const updatedUser = await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      { $addToSet: { following: othersUserId } },
+      { new: true }
+    ).exec();
+
+    await this.userModel.findOneAndUpdate(
+      { _id: othersUserId },
+      { $addToSet: { follower: userId } }
+    ).exec();
+
+    return updatedUser;
   }
 
   // async sendVerificationCodeToUser(id: string, phoneNumber: string): Promise<void> {

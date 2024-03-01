@@ -45,7 +45,6 @@ export class PostsService {
     if (!updatedPost) {
       throw new NotFoundException(`Post with ID ${id} not found`);
     }
-    //d
     return updatedPost;
   }
 
@@ -77,5 +76,5 @@ export class PostsService {
     ).exec();
 
     return updatedPost;
-}
+  }
 }
