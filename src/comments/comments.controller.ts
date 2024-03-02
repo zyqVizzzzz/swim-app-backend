@@ -18,5 +18,4 @@ export class CommentsController {
   async deleteComment(@Param('commentId') commentId: string, @Req() req: any){
     return this.commentsService.deleteComment(commentId, req.user.userId)
   }
-
 }

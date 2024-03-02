@@ -7,18 +7,19 @@ import { PostSchema } from './posts.schema';
 import { IdCounterSchema } from '../sequence/idCounter.schema';
 import { UsersModule } from '../users/users.module';
 import { CommentsModule } from '../comments/comments.module';
+import { ImageUploadService } from '../avatar/image-upload.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: 'Post', schema: PostSchema },
-      { name: 'IdCounter', schema: IdCounterSchema }
+      { name: 'IdCounter', schema: IdCounterSchema },
     ]),
     UsersModule,
-    CommentsModule
+    CommentsModule,
   ],
   controllers: [PostsController],
-  providers: [PostsService, SequenceService],
-  exports: [PostsService]
+  providers: [PostsService, SequenceService, ImageUploadService],
+  exports: [PostsService],
 })
 export class PostsModule {}
