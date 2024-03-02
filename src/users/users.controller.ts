@@ -51,6 +51,18 @@ export class UsersController {
     return this.usersService.unfollow(othersUserId, req.user.userId)
   }
 
+  @Post('block/:othersUserId')
+  @UseGuards(JwtAuthGuard)
+  blockUser(@Param('othersUserId') othersUserId: string, @Req() req: any){
+    return this.usersService.blockUser(othersUserId, req.user.userId)
+  }
+
+  @Post('unblock/:othersUserId')
+  @UseGuards(JwtAuthGuard)
+  unblockUser(@Param('othersUserId') othersUserId: string, @Req() req: any){
+    return this.usersService.unblockUser(othersUserId, req.user.userId)
+  }
+
   // @Post(':id/verify-phone')
   // async sendVerificationCode(@Param('id') id: string, @Body() body: { phoneNumber: string }) {
   //   return await this.usersService.sendVerificationCodeToUser(id, body.phoneNumber);

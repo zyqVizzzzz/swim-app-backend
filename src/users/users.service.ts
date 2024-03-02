@@ -95,7 +95,30 @@ export class UsersService {
     ).exec();
 
     return updatedUser;
+  }
 
+  async blockUser(othersUserId: string, userId: string): Promise<User> {
+    if (othersUserId === userId) {
+      throw new Error('You cannot block yourself');
+    }
+
+    return await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      { $addToSet: { blocked: othersUserId } },
+      { new: true }
+    ).exec();
+  }
+
+  async unblockUser(othersUserId: string, userId: string): Promise<User> {
+    if (othersUserId === userId) {
+      throw new Error('You cannot block yourself');
+    }
+
+    return await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { blocked: othersUserId } },
+      { new: true }
+    ).exec();
   }
 
   // async sendVerificationCodeToUser(id: string, phoneNumber: string): Promise<void> {
