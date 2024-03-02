@@ -78,6 +78,26 @@ export class UsersService {
     return updatedUser;
   }
 
+  async unfollow(othersUserId: string, userId: string): Promise<User> {
+    if (othersUserId === userId) {
+      throw new Error('You cannot unfollow yourself');
+    }
+
+    const updatedUser = await this.userModel.findOneAndUpdate(
+      { _id: userId },
+      { $pull: { following: othersUserId } },
+      { new: true }
+    ).exec();
+
+    await this.userModel.findOneAndUpdate(
+      { _id: othersUserId },
+      { $pull: { follower: userId } }
+    ).exec();
+
+    return updatedUser;
+
+  }
+
   // async sendVerificationCodeToUser(id: string, phoneNumber: string): Promise<void> {
   //   await this.smsService.sendVerificationCode(phoneNumber);
   //   await this.userModel.findOneAndUpdate({ _id: id }, { phoneNumber })

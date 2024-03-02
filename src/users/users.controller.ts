@@ -45,6 +45,12 @@ export class UsersController {
     return this.usersService.follow(othersUserId, req.user.userId)
   }
 
+  @Post('unfollow/:othersUserId')
+  @UseGuards(JwtAuthGuard)
+  unfollow(@Param('othersUserId') othersUserId: string, @Req() req: any) {
+    return this.usersService.unfollow(othersUserId, req.user.userId)
+  }
+
   // @Post(':id/verify-phone')
   // async sendVerificationCode(@Param('id') id: string, @Body() body: { phoneNumber: string }) {
   //   return await this.usersService.sendVerificationCodeToUser(id, body.phoneNumber);
