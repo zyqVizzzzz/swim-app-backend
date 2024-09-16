@@ -4,9 +4,9 @@ import { ResponseInterceptor } from './response.interceptor'; // 引入拦截器
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter'; // 根据实际路径导入
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { 
-    cors: true, 
-    logger: ['error', 'warn', 'log', 'debug', 'verbose'] // 设置日志级别
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+    logger: ['error', 'warn', 'log', 'debug', 'verbose'], // 设置日志级别
   });
   app.useGlobalInterceptors(new ResponseInterceptor()); // 注册为全局拦截器
   app.useGlobalFilters(new GlobalExceptionFilter()); // 注册为全局过滤器

@@ -1,8 +1,17 @@
-import { Controller, Get, Post, Body, Param, Delete, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth2/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -42,25 +51,25 @@ export class UsersController {
   @Post('follow/:othersUserId')
   @UseGuards(JwtAuthGuard)
   follow(@Param('othersUserId') othersUserId: string, @Req() req: any) {
-    return this.usersService.follow(othersUserId, req.user.userId)
+    return this.usersService.follow(othersUserId, req.user.userId);
   }
 
   @Post('unfollow/:othersUserId')
   @UseGuards(JwtAuthGuard)
   unfollow(@Param('othersUserId') othersUserId: string, @Req() req: any) {
-    return this.usersService.unfollow(othersUserId, req.user.userId)
+    return this.usersService.unfollow(othersUserId, req.user.userId);
   }
 
   @Post('block/:othersUserId')
   @UseGuards(JwtAuthGuard)
-  blockUser(@Param('othersUserId') othersUserId: string, @Req() req: any){
-    return this.usersService.blockUser(othersUserId, req.user.userId)
+  blockUser(@Param('othersUserId') othersUserId: string, @Req() req: any) {
+    return this.usersService.blockUser(othersUserId, req.user.userId);
   }
 
   @Post('unblock/:othersUserId')
   @UseGuards(JwtAuthGuard)
-  unblockUser(@Param('othersUserId') othersUserId: string, @Req() req: any){
-    return this.usersService.unblockUser(othersUserId, req.user.userId)
+  unblockUser(@Param('othersUserId') othersUserId: string, @Req() req: any) {
+    return this.usersService.unblockUser(othersUserId, req.user.userId);
   }
 
   // @Post(':id/verify-phone')

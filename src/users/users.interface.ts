@@ -1,27 +1,22 @@
-export interface User {
-  _id: String,
-  email: String,
-  password_hash: String,
-  phoneNumber: {type: string, unique: true};
-  isPhoneNumberVerified: { type: boolean, default: false };
-  nickname: String,
-  avatar_url: String,
-  signature: String,
-  personal_info: {
-    gender: String,
-    age: Number,
-    location: String,
-    bio: String
-  },
-  devices: Array<any>,
-  sports_data: {
-    daily: Array<any>,
-    total: Object
-  },
-  interactions: Array<any>,
-  system_messages: Array<any>,
-  following: Array<any>,
-  follower: Array<any>,
-  blocked: Array<any>,
-  posts: Array<any>,
+import { Document } from 'mongoose';
+
+export interface User extends Document {
+  openId: string;
+  userId?: string;
+  phone_number?: string;
+  is_phone_number_verified?: boolean;
+  nickname: string;
+  profile_pic?: string;
+  signature?: string;
+  monthly_goal?: number;
+  personal_data?: any; // 根据实际情况定义类型
+  points?: number;
+  devices?: string[];
+  badge_list?: string[];
+  swimming_data_list?: any[]; // 根据实际情况定义类型
+  following?: string[];
+  followers?: string[];
+  account_settings?: any; // 根据实际情况定义类型
+  created_at?: Date;
+  posts?: string[];
 }

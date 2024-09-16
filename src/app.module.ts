@@ -9,30 +9,32 @@ import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { CommentsModule } from './comments/comments.module';
 import { AvatarModule } from './avatar/avatar.module';
+// import { AuthModule } from './auth2/auth.module';
 import { AuthModule } from './auth/auth.module';
-
+import { SolanaModule } from './solana/solana.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule], // 依赖注入 ConfigModule
       useFactory: async (configService: ConfigService) => ({
-        uri: `${configService.get<string>('DATABASE_HOST')}:${configService.get<string>('DATABASE_PORT')}/unidb`,
+        uri: `${configService.get<string>('DATABASE_HOST')}:${configService.get<string>('DATABASE_PORT')}/swimdb`,
       }),
       inject: [ConfigService], // 将 ConfigService 作为依赖注入
-    }), 
+    }),
     MongooseModule.forFeature([{ name: 'IdCounter', schema: IdCounterSchema }]),
-    UsersModule, 
-    PostsModule, 
+    UsersModule,
+    PostsModule,
     AvatarModule,
     AuthModule,
-    CommentsModule
+    CommentsModule,
+    SolanaModule,
   ],
   controllers: [AppController],
   providers: [AppService, SequenceService],
-  exports: [SequenceService]
+  exports: [SequenceService],
 })
 export class AppModule {}

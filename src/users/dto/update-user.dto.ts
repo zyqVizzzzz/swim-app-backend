@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
 
@@ -10,13 +11,13 @@ export class UpdateLocationDto {
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   nickname?: string;
   avatar_url?: string;
-  phoneNumber?: {type: string, unique: true};
-  isPhoneNumberVerified?: { type: boolean, default: false };
+  phoneNumber?: { type: string; unique: true };
+  isPhoneNumberVerified?: { type: boolean; default: false };
   signature?: string;
   devices?: [string];
   sports_data?: {
-    daily: [string],
-    total: object
+    daily: [string];
+    total: object;
   };
   interactions?: [string];
   system_messages?: [string];
