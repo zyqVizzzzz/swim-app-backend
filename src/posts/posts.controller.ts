@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto'; // 定义DTO
-import { JwtAuthGuard } from '../auth2/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ImageUploadService } from '../avatar/image-upload.service';
 

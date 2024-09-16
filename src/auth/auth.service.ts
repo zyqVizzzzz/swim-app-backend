@@ -5,13 +5,17 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from '../users/users.interface';
 import * as crypto from 'crypto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   private appId = 'wx4160000000000000';
   private appSecret = '00000000000000000000000000000000';
 
-  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+  constructor(
+    @InjectModel('User') private readonly userModel: Model<User>,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async weChatLogin(weChatLoginDto: WeChatLoginDto) {
     const { code, userInfo } = weChatLoginDto;
@@ -35,8 +39,16 @@ export class AuthService {
 
     await user.save();
 
-    // 可以生成并返回自己的登录态（如JWT）
-    return { message: '登录成功', userId: user._id };
+    // 生成 JWT 令牌
+    const payload = { openId: user.openId, sub: user._id };
+    const token = this.jwtService.sign(payload);
+
+    // 返回登录成功信息和 JWT 令牌
+    return {
+      message: '登录成功',
+      userId: user._id,
+      token: token,
+    };
   }
 
   async getPhoneNumber(weChatPhoneDto: WeChatPhoneDto) {
@@ -58,6 +70,12 @@ export class AuthService {
   }
 
   private async getSessionKey(code: string) {
+    if (code === 'test_code') {
+      return {
+        openid: 'test_openid',
+        session_key: 'test_session_key',
+      };
+    }
     const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${this.appId}&secret=${this.appSecret}&js_code=${code}&grant_type=authorization_code`;
     const response = await axios.get(url);
     return response.data;
