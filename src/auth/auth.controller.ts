@@ -8,6 +8,7 @@ export class AuthController {
 
   @Post('login')
   async weChatLogin(@Body() weChatLoginDto: WeChatLoginDto) {
+    console.log('weChatLoginDto', weChatLoginDto);
     return this.authService.weChatLogin(weChatLoginDto);
   }
 

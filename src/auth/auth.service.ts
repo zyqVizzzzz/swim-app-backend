@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { WeChatLoginDto, WeChatPhoneDto } from './dto/auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -6,22 +6,23 @@ import { Model } from 'mongoose';
 import { User } from '../users/users.interface';
 import * as crypto from 'crypto';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  private appId = 'wx4160000000000000';
-  private appSecret = '00000000000000000000000000000000';
+  private appId = this.configService.get<string>('APP_ID');
+  private appSecret = this.configService.get<string>('APP_SECRET');
 
   constructor(
     @InjectModel('User') private readonly userModel: Model<User>,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
   async weChatLogin(weChatLoginDto: WeChatLoginDto) {
     const { code, userInfo } = weChatLoginDto;
     const sessionData = await this.getSessionKey(code);
     const { openid } = sessionData;
-
     // 检查用户是否已存在
     let user = await this.userModel.findOne({ openId: openid });
     if (!user) {
@@ -37,8 +38,20 @@ export class AuthService {
       user.profile_pic = userInfo.avatarUrl;
     }
 
-    await user.save();
+    console.log(user);
 
+    try {
+      await user.save();
+      console.log('User saved successfully');
+    } catch (error) {
+      console.error('Error saving user:', error);
+      throw new HttpException(
+        '保存用户时发生错误',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    console.log('saved');
     // 生成 JWT 令牌
     const payload = { openId: user.openId, sub: user._id };
     const token = this.jwtService.sign(payload);
@@ -78,7 +91,9 @@ export class AuthService {
     }
     const url = `https://api.weixin.qq.com/sns/jscode2session?appid=${this.appId}&secret=${this.appSecret}&js_code=${code}&grant_type=authorization_code`;
     const response = await axios.get(url);
-    return response.data;
+    const data = response.data;
+    console.log(response.data);
+    return data;
   }
 
   private decryptData(encryptedData: string, iv: string, sessionKey: string) {

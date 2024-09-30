@@ -9,9 +9,8 @@ import { IdCounterSchema } from './sequence/idCounter.schema';
 import { UsersModule } from './users/users.module';
 // import { CommentsModule } from './comments/comments.module';
 // import { AvatarModule } from './avatar/avatar.module';
-// import { AuthModule } from './auth/auth.module';
 import { AuthModule } from './auth/auth.module';
-// import { SolanaModule } from './solana/solana.module';
+import { MessageModule } from './messages/messages.module';
 
 @Module({
   imports: [
@@ -27,11 +26,11 @@ import { AuthModule } from './auth/auth.module';
     }),
     MongooseModule.forFeature([{ name: 'IdCounter', schema: IdCounterSchema }]),
     UsersModule,
+    MessageModule,
     // PostsModule,
     // AvatarModule,
     AuthModule,
     // CommentsModule,
-    // SolanaModule,
   ],
   controllers: [AppController],
   providers: [AppService, SequenceService],
